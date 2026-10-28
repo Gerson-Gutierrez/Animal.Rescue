@@ -1,42 +1,55 @@
 {
   "expo": {
-    "name": "AnimalRescueMobile",
-    "slug": "AnimalRescueMobile",
+    "name": "Animal Rescue",
+    "slug": "animal-rescue",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "animalrescuemobile",
-    "userInterfaceStyle": "automatic",
+    "scheme": "animalrescue",
+    "userInterfaceStyle": "light",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "com.animalrescue.app"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "output": "server",
-      "favicon": "./assets/images/favicon.png"
+      "predictiveBackGestureEnabled": false,
+      "package": "com.animalrescue.app"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#FFFFFF",
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
+          "imageWidth": 160
+        }
+      ],
+      "expo-secure-store",
+      "@react-native-community/datetimepicker",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Animal Rescue usa tu ubicación para centrar el mapa y marcar dónde se perdió tu mascota."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Animal Rescue necesita acceso a tus fotos para publicar imágenes de la mascota.",
+          "cameraPermission": "Animal Rescue necesita la cámara para fotografiar a la mascota."
         }
       ]
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "typedRoutes": false,
+      "reactCompiler": false
     }
   }
 }
