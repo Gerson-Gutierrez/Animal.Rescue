@@ -42,7 +42,8 @@ export default function RootLayout() {
       <TiempoReal />
       <StatusBar style="dark" />
       <Stack
-        screenLayout={({ children }) => <FondoPatitas>{children}</FondoPatitas>}
+        // Las pestañas ponen su propio fondo (ver (tabs)/_layout.tsx).
+        screenLayout={({ route, children }) => (route.name === '(tabs)' ? children : <FondoPatitas>{children}</FondoPatitas>)}
         screenOptions={{
           headerTintColor: colores.marcaOscuro,
           headerTitleStyle: { ...estiloFuente('700'), color: colores.texto },

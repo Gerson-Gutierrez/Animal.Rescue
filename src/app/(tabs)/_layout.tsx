@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import { Tabs } from 'expo-router/js-tabs'
 import { Pressable, StyleSheet, View } from 'react-native'
+import { FondoPatitas } from '../../components/FondoPatitas'
 import { estiloFuente } from '../../components/Texto'
 import { Avatar } from '../../components/Ui'
 import { useNoLeidos } from '../../features/mensajes/hooks'
@@ -34,14 +35,15 @@ export default function TabsLayout() {
   const noLeidos = useNoLeidos()
   return (
     <Tabs
+      // Cada pestaña lleva su propio fondo opaco: las pestañas visitadas siguen montadas detrás
+      // (en web, con z-index -1) y con un fondo transparente se verían a través de la activa.
+      screenLayout={({ children }) => <FondoPatitas>{children}</FondoPatitas>}
       screenOptions={{
         tabBarActiveTintColor: colores.marcaOscuro,
         tabBarInactiveTintColor: colores.textoTenue,
         tabBarLabelStyle: { ...estiloFuente('600'), fontSize: 11 },
         headerTitleStyle: { ...estiloFuente('700'), color: colores.texto },
         headerRight: () => <AccionesCabecera />,
-        // Transparente para que se vea el fondo de huellas del Stack raíz.
-        sceneStyle: { backgroundColor: 'transparent' },
       }}
     >
       <Tabs.Screen
