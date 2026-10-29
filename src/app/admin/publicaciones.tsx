@@ -8,7 +8,7 @@ import { Button } from '../../components/Button'
 import { ConfirmDialog } from '../../components/Modal'
 import { Badge, Cargando, EmptyState, ErrorState, Segmentado } from '../../components/Ui'
 import { Buscador, Miniatura, SoloAdmin } from '../../features/admin/Comun'
-import { colores, radio, sombra } from '../../lib/theme'
+import { anchoMaximo, centrado, colores, radio, sombra } from '../../lib/theme'
 import { toast } from '../../lib/toast'
 import { useDebounce } from '../../lib/useDebounce'
 import type { AdminPublicacion, EstadoPublicacion } from '../../types/api'
@@ -43,7 +43,7 @@ function Publicaciones() {
       <FlatList
         data={lista.data?.items ?? []}
         keyExtractor={(p) => p.id}
-        contentContainerStyle={{ padding: 12, gap: 12, flexGrow: 1 }}
+        contentContainerStyle={{ padding: 12, gap: 12, flexGrow: 1, ...centrado(anchoMaximo.contenido) }}
         keyboardShouldPersistTaps="handled"
         ListHeaderComponent={
           <View style={{ gap: 10 }}>

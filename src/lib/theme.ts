@@ -28,6 +28,13 @@ export const fuentes = {
   negrita: 'Fredoka_700Bold',
 }
 
+/** Anchos máximos para pantallas grandes (web/tablet): el contenido se centra en vez de estirarse. */
+export const anchoMaximo = { lista: 1200, contenido: 760, formulario: 560 }
+
+export function centrado(max: number) {
+  return { width: '100%', maxWidth: max, alignSelf: 'center' } as const
+}
+
 export const radio = { sm: 8, md: 12, lg: 16, xl: 24, total: 999 }
 
 export const sombra = {

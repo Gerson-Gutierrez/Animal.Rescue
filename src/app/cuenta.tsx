@@ -13,7 +13,7 @@ import { Button } from '../components/Button'
 import { Seccion, TextField } from '../components/Fields'
 import { Avatar, Badge } from '../components/Ui'
 import { API_URL } from '../lib/config'
-import { colores, radio } from '../lib/theme'
+import { anchoMaximo, centrado, colores, radio } from '../lib/theme'
 import { toast } from '../lib/toast'
 import { useAuthStore, useRol } from '../store/auth'
 import type { Rol } from '../types/api'
@@ -59,7 +59,7 @@ export default function CuentaScreen() {
   if (!usuario) return <Redirect href="/login" />
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 16 }}>
+    <ScrollView contentContainerStyle={{ padding: 16, gap: 16, ...centrado(anchoMaximo.contenido) }}>
       <View style={estilos.perfil}>
         <Avatar nombre={usuario.nombre} fotoUrl={usuario.fotoUrl} tam={64} />
         <View style={{ flex: 1, gap: 4 }}>

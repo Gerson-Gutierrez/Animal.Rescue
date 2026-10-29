@@ -10,7 +10,7 @@ import { Avatar, Cargando, EmptyState, ErrorState } from '../../components/Ui'
 import { RequiereSesion } from '../../features/cuenta/RequiereSesion'
 import { useConversaciones } from '../../features/mensajes/hooks'
 import { formatHoraChat } from '../../lib/format'
-import { colores } from '../../lib/theme'
+import { anchoMaximo, centrado, colores } from '../../lib/theme'
 import { toast } from '../../lib/toast'
 import type { ConversacionResumen } from '../../types/api'
 
@@ -70,7 +70,7 @@ function Lista() {
         keyExtractor={(c) => c.id}
         renderItem={({ item }) => <ConversacionItem c={item} onEliminar={() => setAEliminar(item)} />}
         ItemSeparatorComponent={() => <View style={estilos.separador} />}
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, ...centrado(anchoMaximo.contenido) }}
         onRefresh={() => void lista.refetch()}
         refreshing={lista.isRefetching}
         ListEmptyComponent={

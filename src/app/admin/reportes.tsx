@@ -10,7 +10,7 @@ import { Hoja } from '../../components/Modal'
 import { Badge, Cargando, EmptyState, ErrorState, Segmentado } from '../../components/Ui'
 import { Miniatura, SoloAdmin } from '../../features/admin/Comun'
 import { formatFechaHora } from '../../lib/format'
-import { colores, radio, sombra } from '../../lib/theme'
+import { anchoMaximo, centrado, colores, radio, sombra } from '../../lib/theme'
 import { toast } from '../../lib/toast'
 import { MOTIVOS_REPORTE, type Reporte } from '../../types/api'
 
@@ -79,7 +79,7 @@ function Reportes() {
         data={reportes.data?.items ?? []}
         keyExtractor={(r) => r.id}
         renderItem={({ item }) => <ReporteItem r={item} onResolver={(accion) => setResolviendo({ r: item, accion })} />}
-        contentContainerStyle={{ padding: 12, gap: 12, flexGrow: 1 }}
+        contentContainerStyle={{ padding: 12, gap: 12, flexGrow: 1, ...centrado(anchoMaximo.contenido) }}
         onRefresh={() => void reportes.refetch()}
         refreshing={reportes.isRefetching}
         ListHeaderComponent={

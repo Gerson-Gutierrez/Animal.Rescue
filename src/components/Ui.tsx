@@ -6,7 +6,7 @@ import { Text } from './Texto'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { mediaUrl } from '../lib/config'
 import { iniciales } from '../lib/format'
-import { colores, radio } from '../lib/theme'
+import { anchoMaximo, centrado, colores, radio } from '../lib/theme'
 import { useToastStore } from '../lib/toast'
 
 type Icono = ComponentProps<typeof Ionicons>['name']
@@ -21,7 +21,7 @@ export function Cargando() {
 
 export function EmptyState({ icono, titulo, texto, accion }: { icono: Icono; titulo: string; texto?: string; accion?: ReactNode }) {
   return (
-    <View style={[estilos.centro, { paddingHorizontal: 32 }]}>
+    <View style={[estilos.centro, { paddingHorizontal: 32 }, centrado(anchoMaximo.formulario)]}>
       <View style={estilos.circulo}>
         <Ionicons name={icono} size={32} color={colores.marcaOscuro} />
       </View>

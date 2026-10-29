@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import { Text } from './Texto'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { colores, radio } from '../lib/theme'
+import { anchoMaximo, centrado, colores, radio } from '../lib/theme'
 import { Button } from './Button'
 
 interface HojaProps {
@@ -63,7 +63,7 @@ export function ConfirmDialog({ abierto, titulo, mensaje, textoSi = 'Sí', texto
 
 const estilos = StyleSheet.create({
   fondo: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.45)' },
-  hoja: { backgroundColor: colores.tarjeta, borderTopLeftRadius: radio.xl, borderTopRightRadius: radio.xl, padding: 20, maxHeight: '88%' },
+  hoja: { ...centrado(anchoMaximo.formulario), backgroundColor: colores.tarjeta, borderTopLeftRadius: radio.xl, borderTopRightRadius: radio.xl, padding: 20, maxHeight: '88%' },
   cabecera: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   titulo: { fontSize: 18, fontWeight: '800', color: colores.texto, flex: 1 },
   mensaje: { fontSize: 15, color: colores.textoSuave, marginBottom: 20, lineHeight: 21 },

@@ -14,7 +14,7 @@ import { Mapa } from '../../../features/mapa/Mapa'
 import { ReportarDialog } from '../../../features/publicaciones/ReportarDialog'
 import { mediaUrl } from '../../../lib/config'
 import { formatFecha, formatMoneda } from '../../../lib/format'
-import { colores, radio } from '../../../lib/theme'
+import { anchoMaximo, centrado, colores, radio } from '../../../lib/theme'
 import { toast } from '../../../lib/toast'
 import { useAuthStore, useRol } from '../../../store/auth'
 import { TAMANOS } from '../../../types/api'
@@ -30,7 +30,8 @@ function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {
 
 export default function DetalleScreen() {
   const { id } = useLocalSearchParams<{ id: string }>()
-  const { width } = useWindowDimensions()
+  // En web/tablet la galería no pasa del ancho del contenido.
+  const ancho = Math.min(useWindowDimensions().width, anchoMaximo.contenido)
   const queryClient = useQueryClient()
   const autenticado = useAuthStore((s) => !!s.usuario)
   const { esAdmin } = useRol()
@@ -86,17 +87,17 @@ export default function DetalleScreen() {
         }}
       />
       {/* Fondo blanco liso: sobre las huellas los datos se pierden visualmente. */}
-      <ScrollView style={{ backgroundColor: colores.tarjeta }} contentContainerStyle={{ paddingBottom: 32 }}>
+      <ScrollView style={{ backgroundColor: colores.tarjeta }} contentContainerStyle={{ paddingBottom: 32, ...centrado(anchoMaximo.contenido) }}>
         {/* Galería: se desliza horizontalmente */}
         <ScrollView
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={(e) => setFoto(Math.round(e.nativeEvent.contentOffset.x / width))}
+          onMomentumScrollEnd={(e) => setFoto(Math.round(e.nativeEvent.contentOffset.x / ancho))}
           style={{ backgroundColor: '#1c1917' }}
         >
           {p.imagenes.map((img) => (
-            <Image key={img.id} source={mediaUrl(img.url)} style={{ width, height: width * 0.8 }} contentFit="contain" />
+            <Image key={img.id} source={mediaUrl(img.url)} style={{ width: ancho, height: ancho * 0.8 }} contentFit="contain" />
           ))}
         </ScrollView>
         {p.imagenes.length > 1 && (

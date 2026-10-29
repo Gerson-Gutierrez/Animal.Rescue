@@ -11,7 +11,7 @@ import { ConfirmDialog } from '../components/Modal'
 import { Badge, Cargando, EmptyState, ErrorState } from '../components/Ui'
 import { mediaUrl } from '../lib/config'
 import { formatFecha } from '../lib/format'
-import { colores, radio, sombra } from '../lib/theme'
+import { anchoMaximo, centrado, colores, radio, sombra } from '../lib/theme'
 import { toast } from '../lib/toast'
 import { useAuthStore } from '../store/auth'
 import type { PublicacionCard } from '../types/api'
@@ -70,7 +70,7 @@ export default function MisMascotasScreen() {
       <FlatList
         data={mias.data ?? []}
         keyExtractor={(p) => p.id}
-        contentContainerStyle={{ padding: 12, gap: 12, flexGrow: 1 }}
+        contentContainerStyle={{ padding: 12, gap: 12, flexGrow: 1, ...centrado(anchoMaximo.contenido) }}
         renderItem={({ item }) => <MiPublicacion p={item} onEliminar={() => setAEliminar(item)} />}
         onRefresh={() => void mias.refetch()}
         refreshing={mias.isRefetching}

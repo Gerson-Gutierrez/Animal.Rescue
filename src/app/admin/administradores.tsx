@@ -6,7 +6,7 @@ import { adminApi } from '../../api/endpoints'
 import { Button } from '../../components/Button'
 import { Badge, Cargando, ErrorState } from '../../components/Ui'
 import { Buscador, SoloAdmin } from '../../features/admin/Comun'
-import { colores, radio } from '../../lib/theme'
+import { anchoMaximo, centrado, colores, radio } from '../../lib/theme'
 import { toast } from '../../lib/toast'
 import { useDebounce } from '../../lib/useDebounce'
 import type { Rol, UsuarioAdmin } from '../../types/api'
@@ -31,7 +31,7 @@ function Administradores() {
     <FlatList
       data={usuarios.data?.items ?? []}
       keyExtractor={(u) => u.id}
-      contentContainerStyle={{ padding: 12, gap: 8, flexGrow: 1 }}
+      contentContainerStyle={{ padding: 12, gap: 8, flexGrow: 1, ...centrado(anchoMaximo.contenido) }}
       keyboardShouldPersistTaps="handled"
       ListHeaderComponent={<Buscador valor={texto} onCambio={setTexto} placeholder="Buscar usuario por nombre o correo" />}
       renderItem={({ item: u }) => {

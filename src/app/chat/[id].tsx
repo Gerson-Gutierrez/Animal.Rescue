@@ -15,7 +15,7 @@ import { useConversaciones } from '../../features/mensajes/hooks'
 import type { FotoLocal } from '../../features/publicaciones/SubidorImagenes'
 import { mediaUrl } from '../../lib/config'
 import { formatFechaHora } from '../../lib/format'
-import { colores, radio } from '../../lib/theme'
+import { anchoMaximo, centrado, colores, radio } from '../../lib/theme'
 import { toast } from '../../lib/toast'
 import { useAuthStore } from '../../store/auth'
 import type { Mensaje } from '../../types/api'
@@ -182,7 +182,7 @@ export default function ChatScreen() {
 const estilos = StyleSheet.create({
   banner: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 16, paddingVertical: 10, backgroundColor: colores.marcaFondo, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colores.marcaClaro },
   bannerTexto: { flex: 1, fontSize: 14, fontWeight: '700', color: colores.marcaOscuro },
-  lista: { padding: 12, gap: 8, flexGrow: 1 },
+  lista: { padding: 12, gap: 8, flexGrow: 1, ...centrado(anchoMaximo.contenido) },
   burbuja: { maxWidth: '80%', borderRadius: 18, overflow: 'hidden' },
   propia: { alignSelf: 'flex-end', backgroundColor: colores.marca, borderBottomRightRadius: 6 },
   ajena: { alignSelf: 'flex-start', backgroundColor: colores.tarjeta, borderBottomLeftRadius: 6 },

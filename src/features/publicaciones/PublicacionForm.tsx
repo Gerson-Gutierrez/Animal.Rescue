@@ -10,6 +10,7 @@ import { archivoForm, mensajeError } from '../../api/http'
 import { Button } from '../../components/Button'
 import { CheckRow, DateField, Seccion, SelectField, TextField } from '../../components/Fields'
 import { hoyISO } from '../../lib/format'
+import { anchoMaximo, centrado } from '../../lib/theme'
 import { toast } from '../../lib/toast'
 import { TAMANOS, type PublicacionDetalle, type Tamano } from '../../types/api'
 import { SelectorUbicacion } from './SelectorUbicacion'
@@ -216,6 +217,6 @@ export function PublicacionForm({ existente }: { existente?: PublicacionDetalle 
 }
 
 const estilos = StyleSheet.create({
-  contenedor: { padding: 16, gap: 16, paddingBottom: 40 },
+  contenedor: { padding: 16, gap: 16, paddingBottom: 40, ...centrado(anchoMaximo.contenido) },
   fila: { flexDirection: 'row', gap: 12 },
 })

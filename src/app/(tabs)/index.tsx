@@ -2,14 +2,17 @@ import { Ionicons } from '@expo/vector-icons'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { router } from 'expo-router'
 import { useState } from 'react'
-import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, useWindowDimensions, View } from 'react-native'
 import { TextInput } from '../../components/Texto'
 import { publicacionesApi } from '../../api/endpoints'
 import { Button } from '../../components/Button'
 import { Cargando, EmptyState, ErrorState } from '../../components/Ui'
 import { PublicacionCard } from '../../features/publicaciones/PublicacionCard'
-import { colores, radio } from '../../lib/theme'
+import { anchoMaximo, centrado, colores, radio } from '../../lib/theme'
 import { useDebounce } from '../../lib/useDebounce'
+import type { PublicacionCard as Card } from '../../types/api'
+
+const ANCHO_CARD_MIN = 200
 
 export default function FeedScreen() {
   const [texto, setTexto] = useState('')
@@ -24,14 +27,24 @@ export default function FeedScreen() {
 
   const items = feed.data?.pages.flatMap((p) => p.items) ?? []
 
+  // Columnas según el ancho: 2 en teléfono y más en tablet/web, con cards de ~200px como mínimo.
+  const { width } = useWindowDimensions()
+  const anchoLista = Math.min(width, anchoMaximo.lista)
+  const columnas = Math.max(2, Math.min(5, Math.floor((anchoLista - 12) / (ANCHO_CARD_MIN + 12))))
+  // Huecos invisibles para que la última fila incompleta no estire sus cards.
+  const relleno = (columnas - (items.length % columnas)) % columnas
+  const datos: (Card | null)[] = relleno > 0 ? [...items, ...Array<null>(relleno).fill(null)] : items
+
   return (
     <FlatList
-      data={items}
-      keyExtractor={(p) => p.id}
-      numColumns={2}
+      // numColumns no puede cambiar en caliente: se remonta la lista al cambiar.
+      key={columnas}
+      data={datos}
+      keyExtractor={(p, i) => p?.id ?? `hueco-${i}`}
+      numColumns={columnas}
       columnWrapperStyle={{ gap: 12 }}
       contentContainerStyle={estilos.lista}
-      renderItem={({ item }) => <PublicacionCard p={item} />}
+      renderItem={({ item }) => (item ? <PublicacionCard p={item} /> : <View style={{ flex: 1 }} />)}
       onEndReached={() => feed.hasNextPage && !feed.isFetchingNextPage && void feed.fetchNextPage()}
       onEndReachedThreshold={0.5}
       refreshControl={<RefreshControl refreshing={feed.isRefetching && !feed.isFetchingNextPage} onRefresh={() => void feed.refetch()} colors={[colores.marca]} />}
@@ -70,7 +83,7 @@ export default function FeedScreen() {
 }
 
 const estilos = StyleSheet.create({
-  lista: { padding: 12, gap: 12, flexGrow: 1 },
+  lista: { padding: 12, gap: 12, flexGrow: 1, ...centrado(anchoMaximo.lista) },
   buscador: {
     flexDirection: 'row',
     alignItems: 'center',

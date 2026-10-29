@@ -1,7 +1,7 @@
 import { Image } from 'expo-image'
 import { StyleSheet, View } from 'react-native'
 import { Text } from '../../components/Texto'
-import { colores } from '../../lib/theme'
+import { anchoMaximo, centrado, colores } from '../../lib/theme'
 
 export function Marca() {
   return (
@@ -14,7 +14,7 @@ export function Marca() {
 }
 
 export const estilos = StyleSheet.create({
-  contenedor: { padding: 24, gap: 16, flexGrow: 1, justifyContent: 'center' },
+  contenedor: { padding: 24, gap: 16, flexGrow: 1, justifyContent: 'center', ...centrado(anchoMaximo.formulario) },
   marca: { alignItems: 'center', marginBottom: 12 },
   logo: { width: 96, height: 96, marginBottom: 12 },
   titulo: { fontSize: 26, fontWeight: '900', color: colores.texto },
