@@ -85,7 +85,8 @@ export default function DetalleScreen() {
             ) : null,
         }}
       />
-      <ScrollView contentContainerStyle={{ paddingBottom: 32 }}>
+      {/* Fondo blanco liso: sobre las huellas los datos se pierden visualmente. */}
+      <ScrollView style={{ backgroundColor: colores.tarjeta }} contentContainerStyle={{ paddingBottom: 32 }}>
         {/* Galería: se desliza horizontalmente */}
         <ScrollView
           horizontal
@@ -204,7 +205,7 @@ const estilos = StyleSheet.create({
   cuerpo: { padding: 16, gap: 18 },
   badges: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   grilla: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  dato: { width: '48.5%', backgroundColor: colores.tarjeta, borderRadius: radio.md, paddingHorizontal: 12, paddingVertical: 8 },
+  dato: { width: '48.5%', backgroundColor: colores.fondo, borderColor: colores.bordeSuave, borderWidth: 1, borderRadius: radio.md, paddingHorizontal: 12, paddingVertical: 8 },
   datoEtiqueta: { fontSize: 12, color: colores.textoTenue },
   datoValor: { fontSize: 15, fontWeight: '700', color: colores.texto },
   recompensa: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colores.ambar, borderColor: colores.ambarBorde, borderWidth: 1, borderRadius: radio.md, padding: 12 },
@@ -212,5 +213,5 @@ const estilos = StyleSheet.create({
   texto: { fontSize: 15, lineHeight: 22, color: colores.textoSuave },
   fila: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
   mapa: { height: 180, borderRadius: radio.lg, overflow: 'hidden' },
-  autor: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colores.tarjeta, borderRadius: radio.md, padding: 12 },
+  autor: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colores.fondo, borderColor: colores.bordeSuave, borderWidth: 1, borderRadius: radio.md, padding: 12 },
 })
