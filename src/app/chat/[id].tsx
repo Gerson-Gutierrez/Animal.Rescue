@@ -85,7 +85,7 @@ export default function ChatScreen() {
     mutationFn: () => {
       const form = new FormData()
       if (texto.trim()) form.append('contenido', texto.trim())
-      if (foto) form.append('imagen', archivoForm(foto.uri))
+      if (foto) form.append('imagen', archivoForm(foto))
       return mensajesApi.enviar(id, form)
     },
     onSuccess: (m) => {
@@ -102,7 +102,7 @@ export default function ChatScreen() {
     if (r.canceled) return
     const a = r.assets[0]
     if (a.fileSize && a.fileSize > 5 * 1024 * 1024) return toast.error('La imagen supera los 5 MB.')
-    setFoto({ uri: a.uri })
+    setFoto({ uri: a.uri, archivo: a.file })
   }
 
   const puedeEnviar = (!!texto.trim() || !!foto) && !enviar.isPending

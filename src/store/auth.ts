@@ -1,4 +1,5 @@
 import * as SecureStore from 'expo-secure-store'
+import { Platform } from 'react-native'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import type { AuthResponse, Rol, Usuario } from '../types/api'
@@ -12,12 +13,16 @@ interface AuthState {
   cerrarSesion: () => void
 }
 
-// Los tokens se guardan cifrados en el llavero del teléfono.
-const almacenSeguro = createJSONStorage(() => ({
-  getItem: (k: string) => SecureStore.getItemAsync(k),
-  setItem: (k: string, v: string) => SecureStore.setItemAsync(k, v),
-  removeItem: (k: string) => SecureStore.deleteItemAsync(k),
-}))
+// Los tokens se guardan cifrados en el llavero del teléfono; en la versión web (sin llavero), en localStorage.
+const almacenSeguro = createJSONStorage(() =>
+  Platform.OS === 'web'
+    ? localStorage
+    : {
+        getItem: (k: string) => SecureStore.getItemAsync(k),
+        setItem: (k: string, v: string) => SecureStore.setItemAsync(k, v),
+        removeItem: (k: string) => SecureStore.deleteItemAsync(k),
+      },
+)
 
 export const useAuthStore = create<AuthState>()(
   persist(

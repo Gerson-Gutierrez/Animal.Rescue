@@ -1,10 +1,11 @@
 import { useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react'
-import { Linking, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native'
-import { WebView, type WebViewMessageEvent } from 'react-native-webview'
+import { Linking, Platform, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native'
+import { WebView } from 'react-native-webview'
 import type { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import type { Limites } from '../../api/endpoints'
 import { API_URL, MAPA_TESELAS } from '../../lib/config'
 import { colores } from '../../lib/theme'
+import { MarcoWeb, type MarcoWebRef } from './MarcoWeb'
 
 /**
  * Mapa gratuito y sin clave: Leaflet + teselas de OpenStreetMap dentro de un WebView
@@ -58,6 +59,7 @@ const WebViewMapa = WebView<object>
 
 export function Mapa({ ref, centro, zoom, pines = [], interactivo = true, style, ...eventos }: Props) {
   const web = useRef<WebView<object>>(null)
+  const marco = useRef<MarcoWebRef>(null)
   const listo = useRef(false)
   const manejadores = useRef(eventos)
   const pinesJson = JSON.stringify(pines)
@@ -70,7 +72,8 @@ export function Mapa({ ref, centro, zoom, pines = [], interactivo = true, style,
     manejadores.current = eventos
   })
 
-  const ejecutar = (comando: string) => web.current?.injectJavaScript(`window.recibir(${comando});true;`)
+  const ejecutar = (comando: string) =>
+    (web.current ?? marco.current)?.injectJavaScript(`window.recibir(${comando});true;`)
 
   useEffect(() => {
     ultimosPines.current = pinesJson
@@ -85,7 +88,8 @@ export function Mapa({ ref, centro, zoom, pines = [], interactivo = true, style,
     },
   }), [])
 
-  const alMensaje = (e: WebViewMessageEvent) => {
+  // Sirve tanto para el WebView (WebViewMessageEvent) como para el iframe de la versión web.
+  const alMensaje = (e: { nativeEvent: { data: string } }) => {
     const ev = JSON.parse(e.nativeEvent.data) as Evento
     const h = manejadores.current
     switch (ev.tipo) {
@@ -118,6 +122,14 @@ export function Mapa({ ref, centro, zoom, pines = [], interactivo = true, style,
     if (r.url.startsWith(API_URL) || r.url.startsWith('about:') || r.url.startsWith('data:')) return true
     void Linking.openURL(r.url)
     return false
+  }
+
+  if (Platform.OS === 'web') {
+    return (
+      <View style={[estilos.contenedor, style]}>
+        <MarcoWeb ref={marco} html={html} onMessage={alMensaje} />
+      </View>
+    )
   }
 
   return (
@@ -176,7 +188,11 @@ function crearHtml(centro: PuntoMapa, zoom: number, interactivo: boolean): strin
 <div id="mapa"></div>
 <script>
 (function () {
-  function enviar(e) { if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(JSON.stringify(e)); }
+  function enviar(e) {
+    var datos = JSON.stringify(e);
+    if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(datos);
+    else if (window.parent !== window) window.parent.postMessage(datos, '*'); // versión web (iframe)
+  }
   if (!window.L) {
     document.body.innerHTML = '<p class="aviso">No se pudo cargar el mapa. Revisa tu conexión a internet.</p>';
     return;

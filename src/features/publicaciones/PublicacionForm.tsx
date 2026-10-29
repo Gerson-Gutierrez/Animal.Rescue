@@ -96,7 +96,7 @@ export function PublicacionForm({ existente }: { existente?: PublicacionDetalle 
       f.append('longitud', String(punto!.lng))
 
       const campoFotos = edicion ? 'nuevasImagenes' : 'imagenes'
-      nuevas.forEach((foto) => f.append(campoFotos, archivoForm(foto.uri)))
+      nuevas.forEach((foto) => f.append(campoFotos, archivoForm(foto)))
       if (!edicion) return publicacionesApi.crear(f)
 
       f.append('estado', v.estado)

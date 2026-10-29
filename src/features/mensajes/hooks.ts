@@ -30,7 +30,11 @@ export function useChatRealtime() {
   useEffect(() => {
     if (!usuarioId) return
     const conexion = new HubConnectionBuilder()
-      .withUrl(`${API_URL}/hubs/chat`, { accessTokenFactory: () => useAuthStore.getState().accessToken ?? '' })
+      // Se autentica con el token, no con cookies: sin credenciales, el CORS del navegador no exige Allow-Credentials.
+      .withUrl(`${API_URL}/hubs/chat`, {
+        accessTokenFactory: () => useAuthStore.getState().accessToken ?? '',
+        withCredentials: false,
+      })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.None)
       .build()

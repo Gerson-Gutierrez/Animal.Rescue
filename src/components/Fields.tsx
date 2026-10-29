@@ -138,6 +138,34 @@ export function DateField({ etiqueta, error, valor, onCambiar }: Envoltorio & { 
     const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
     onCambiar(iso)
   }
+
+  // En el navegador no hay selector nativo: se usa el <input type="date"> del propio navegador.
+  if (Platform.OS === 'web') {
+    return (
+      <View style={estilos.campo}>
+        <Etiqueta etiqueta={etiqueta} />
+        <input
+          type="date"
+          value={valor}
+          max={hoyISO()}
+          onChange={(e) => onCambiar(e.target.value)}
+          style={{
+            minHeight: 48,
+            boxSizing: 'border-box',
+            border: `1px solid ${error ? colores.peligro : colores.borde}`,
+            borderRadius: radio.md,
+            backgroundColor: colores.tarjeta,
+            padding: '0 14px',
+            fontSize: 16,
+            fontFamily: 'inherit',
+            color: colores.texto,
+          }}
+        />
+        <Pie error={error} />
+      </View>
+    )
+  }
+
   return (
     <View style={estilos.campo}>
       <Etiqueta etiqueta={etiqueta} />

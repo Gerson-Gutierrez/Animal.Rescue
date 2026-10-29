@@ -13,6 +13,8 @@ const MAX_BYTES = 5 * 1024 * 1024
 
 export interface FotoLocal {
   uri: string
+  /** Solo en web: el archivo elegido (la `uri` es una URL blob: que no se puede releer como archivo). */
+  archivo?: File
 }
 
 interface Props {
@@ -33,7 +35,7 @@ export function SubidorImagenes({ existentes = [], eliminadas = [], nuevas, erro
     const validas: FotoLocal[] = []
     for (const a of resultado.assets) {
       if (a.fileSize && a.fileSize > MAX_BYTES) toast.error('Una de las fotos supera los 5 MB.')
-      else validas.push({ uri: a.uri })
+      else validas.push({ uri: a.uri, archivo: a.file })
     }
     if (validas.length > disponibles) toast.error(`Máximo ${MAX_IMAGENES} imágenes.`)
     onNuevas([...nuevas, ...validas.slice(0, disponibles)])

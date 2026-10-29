@@ -104,9 +104,10 @@ export const http = {
  * Archivo local (foto elegida) para adjuntar a un FormData.
  * Desde el SDK 58 el `fetch` global es `expo/fetch`, que no acepta el objeto `{ uri, name, type }` de
  * React Native ("Unsupported FormDataPart implementation"); sí acepta un `File` de expo-file-system.
+ * En web el selector ya entrega el `File` del navegador.
  */
-export function archivoForm(uri: string): Blob {
-  return new File(uri)
+export function archivoForm(foto: { uri: string; archivo?: Blob }): Blob {
+  return foto.archivo ?? new File(foto.uri)
 }
 
 export function mensajeError(error: unknown): string {
