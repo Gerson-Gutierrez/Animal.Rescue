@@ -20,6 +20,14 @@ export const colores = {
   ambarTexto: '#78350f',
 }
 
+/** Familias de Fredoka (@expo-google-fonts/fredoka) cargadas en el layout raíz. */
+export const fuentes = {
+  normal: 'Fredoka_400Regular',
+  media: 'Fredoka_500Medium',
+  seminegrita: 'Fredoka_600SemiBold',
+  negrita: 'Fredoka_700Bold',
+}
+
 export const radio = { sm: 8, md: 12, lg: 16, xl: 24, total: 999 }
 
 export const sombra = {

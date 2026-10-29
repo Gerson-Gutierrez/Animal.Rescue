@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import { Tabs } from 'expo-router/js-tabs'
 import { Pressable, StyleSheet, View } from 'react-native'
+import { estiloFuente } from '../../components/Texto'
 import { Avatar } from '../../components/Ui'
 import { useNoLeidos } from '../../features/mensajes/hooks'
 import { colores } from '../../lib/theme'
@@ -36,17 +37,18 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarActiveTintColor: colores.marcaOscuro,
         tabBarInactiveTintColor: colores.textoTenue,
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '700' },
-        headerTitleStyle: { fontWeight: '800', color: colores.texto },
+        tabBarLabelStyle: { ...estiloFuente('600'), fontSize: 11 },
+        headerTitleStyle: { ...estiloFuente('700'), color: colores.texto },
         headerRight: () => <AccionesCabecera />,
-        sceneStyle: { backgroundColor: colores.fondo },
+        // Transparente para que se vea el fondo de huellas del Stack raíz.
+        sceneStyle: { backgroundColor: 'transparent' },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Animal Rescue',
-          headerTitleStyle: { fontWeight: '800', color: colores.marcaOscuro },
+          headerTitleStyle: { ...estiloFuente('700'), color: colores.marcaOscuro },
           tabBarLabel: 'Inicio',
           tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color as string} size={size} />,
         }}

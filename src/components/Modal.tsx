@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import type { ReactNode } from 'react'
-import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Text } from './Texto'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { colores, radio } from '../lib/theme'
 import { Button } from './Button'

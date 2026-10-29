@@ -1,8 +1,11 @@
 import { QueryClientProvider } from '@tanstack/react-query'
+import { Fredoka_400Regular, Fredoka_500Medium, Fredoka_600SemiBold, Fredoka_700Bold, useFonts } from '@expo-google-fonts/fredoka'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useState } from 'react'
+import { FondoPatitas } from '../components/FondoPatitas'
+import { estiloFuente } from '../components/Texto'
 import { Toaster } from '../components/Ui'
 import { useChatRealtime } from '../features/mensajes/hooks'
 import { queryClient } from '../lib/queryClient'
@@ -25,20 +28,24 @@ export default function RootLayout() {
     if (useAuthStore.persist.hasHydrated()) queueMicrotask(() => setSesionCargada(true))
     return quitar
   }, [])
+  // Si la fuente falla se sigue con la del sistema en vez de dejar la app en blanco.
+  const [fuenteCargada, errorFuente] = useFonts({ Fredoka_400Regular, Fredoka_500Medium, Fredoka_600SemiBold, Fredoka_700Bold })
+  const listo = sesionCargada && (fuenteCargada || errorFuente != null)
   useEffect(() => {
-    if (sesionCargada) void SplashScreen.hideAsync()
-  }, [sesionCargada])
+    if (listo) void SplashScreen.hideAsync()
+  }, [listo])
 
-  if (!sesionCargada) return null
+  if (!listo) return null
 
   return (
     <QueryClientProvider client={queryClient}>
       <TiempoReal />
       <StatusBar style="dark" />
       <Stack
+        screenLayout={({ children }) => <FondoPatitas>{children}</FondoPatitas>}
         screenOptions={{
           headerTintColor: colores.marcaOscuro,
-          headerTitleStyle: { fontWeight: '800', color: colores.texto },
+          headerTitleStyle: { ...estiloFuente('700'), color: colores.texto },
           headerBackButtonDisplayMode: 'minimal',
           contentStyle: { backgroundColor: colores.fondo },
         }}

@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import type { ComponentProps, ReactNode } from 'react'
-import { ActivityIndicator, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native'
+import { ActivityIndicator, Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native'
+import { Text } from './Texto'
 import { colores, radio } from '../lib/theme'
 
 type Variante = 'primario' | 'secundario' | 'peligro' | 'fantasma'
